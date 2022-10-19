@@ -2,21 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using RPG.Core;
 
 namespace RPG.Movement
 {
-    public class Move : MonoBehaviour
+    public class Move : MonoBehaviour, IAction
     {
         [SerializeField] Transform target;
+
+        NavMeshAgent navMeshAgent;
+
+        void Start()
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
 
         void Update()
         {
             UpdateAnimator();
         }
 
+        public void StartMoveAction(Vector3 destination)
+        {
+            GetComponent<ActionScheduler>().StartAction(this);
+            MoveTo(destination);
+        }
+
         public void MoveTo(Vector3 destination)
         {
-            GetComponent<NavMeshAgent>().destination = destination;
+            
+            navMeshAgent.destination = destination;
+            navMeshAgent.isStopped = false;
+         }
+
+        public void Cancel()
+        {
+            navMeshAgent.isStopped = true;
         }
 
         void UpdateAnimator()
@@ -26,5 +47,6 @@ namespace RPG.Movement
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
         }
+
     }
 }
