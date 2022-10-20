@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7508134922550055831, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
+      propertyPath: weaponRange
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -2497671957341988353, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
       propertyPath: health
       value: 20
@@ -14,6 +18,10 @@ PrefabInstance:
     - target: {fileID: -2497671957341988353, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
       propertyPath: healthPoints
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1498065648, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
+      propertyPath: m_Speed
+      value: 3.8
       objectReference: {fileID: 0}
     - target: {fileID: 8731121548550199722, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
       propertyPath: m_RootOrder
@@ -89,6 +97,20 @@ CapsuleCollider:
   m_Height: 1.907029
   m_Direction: 1
   m_Center: {x: 0, y: 0.879252, z: 0}
+--- !u!114 &-8666684151327306927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480530488644473836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ea871c3cd7cce4ea0243e57d636ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseDistance: 5
+  timeToInvestigate: 5
 --- !u!114 &4944530196822555601
 MonoBehaviour:
   m_ObjectHideFlags: 0

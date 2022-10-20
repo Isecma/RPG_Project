@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
-namespace RPG.Combat
+namespace RPG.Core
 {
     public class Health : MonoBehaviour
     {
@@ -21,14 +22,16 @@ namespace RPG.Combat
             {
                 Die();
             }
-            print(healthPoints);
         }
 
         void Die()
         {
             GetComponent<Animator>().SetTrigger("onDeath");
             isDead = true;
-            GetComponent<CapsuleCollider>().enabled = false;
+            CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+            if (capsuleCollider == null) return;
+            capsuleCollider.enabled = false;
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
     }
