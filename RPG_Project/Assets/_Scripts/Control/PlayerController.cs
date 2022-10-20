@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -10,16 +11,19 @@ namespace RPG.Control
     {
         Move move;
         Fighter fighter;
+        Health health;
 
         void Start()
         {
             move = GetComponent<Move>();
             fighter = GetComponent<Fighter>();
+            health = GetComponent<Health>();
         }
 
 
         void Update()
         {
+            if (health.IsDead()) return;
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
         }
@@ -34,7 +38,7 @@ namespace RPG.Control
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        fighter.Attack(combatTarget);
+                        fighter.Attack(combatTarget.gameObject);
                     }
                     return true;
                 }         
