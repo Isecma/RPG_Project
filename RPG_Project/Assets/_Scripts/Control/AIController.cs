@@ -4,6 +4,8 @@ using UnityEngine;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
+using System;
+using UnityEngine.AI;
 
 namespace RPG.Control
 {
@@ -11,14 +13,21 @@ namespace RPG.Control
     {
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float timeToInvestigate = 10f;
+        [SerializeField] float patrolSpeed = 2f;
+        [SerializeField] float attackSpeed = 3.5f;
+        [SerializeField] PatrolPath patrolPath;
+
 
         Vector3 guardLocation;
+
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        int currentIndexWaypoint = 0;
 
         GameObject player;
         Fighter fighter;
         Health health;
         Move move;
+        NavMeshAgent navMeshAgent;
 
         void Start()
         {
@@ -28,11 +37,14 @@ namespace RPG.Control
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();
             move = GetComponent<Move>();
+            navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         void Update()
         {
-            if (InAttackRangeToPlayer() && !health.IsDead())
+            if (health.IsDead()) return;
+
+            if (InAttackRangeToPlayer())
             {
                 timeSinceLastSawPlayer = 0;
                 AttackBehaviour();
@@ -43,7 +55,7 @@ namespace RPG.Control
             }
             else
             {
-                GuardBehaviour();
+                PatrolBehaviour();
             }
             timeSinceLastSawPlayer +=Time.deltaTime;
         }
@@ -55,12 +67,38 @@ namespace RPG.Control
 
         private void AttackBehaviour()
         {
+            navMeshAgent.speed = attackSpeed;
             fighter.Attack(player);
         }
 
-        void GuardBehaviour()
+        void PatrolBehaviour()
         {
-            move.StartMoveAction(guardLocation);   
+            Vector3 nextPosition = guardLocation;
+            if (patrolPath != null)
+            {
+                if (AtWaypoint())
+                {
+                    CycleWaypoint();
+                }
+                nextPosition = GetCurrentWaypoint();
+            }
+            navMeshAgent.speed = patrolSpeed;
+            move.StartMoveAction(nextPosition);   
+        }
+
+        bool AtWaypoint()
+        {
+            return transform.position == GetCurrentWaypoint();
+        }
+
+        void CycleWaypoint()
+        {
+            currentIndexWaypoint = patrolPath.GetNextIndex(currentIndexWaypoint);    
+        }
+
+        Vector3 GetCurrentWaypoint()
+        {
+            return patrolPath.GetWaypoint(currentIndexWaypoint);
         }
 
         bool InAttackRangeToPlayer()
