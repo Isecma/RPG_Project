@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: weaponRange
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7508134922550055831, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
+      propertyPath: timeBetweenAttacks
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: -2497671957341988353, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
       propertyPath: health
       value: 20
@@ -21,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1498065648, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
       propertyPath: m_Speed
-      value: 3.8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8731121548550199722, guid: 930bb3f7f2fc39d4f964c49f70564b79, type: 3}
       propertyPath: m_RootOrder
@@ -111,6 +115,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseDistance: 5
   timeToInvestigate: 5
+  patrolSpeed: 2
+  attackSpeed: 4
+  patrolPath: {fileID: 0}
 --- !u!114 &4944530196822555601
 MonoBehaviour:
   m_ObjectHideFlags: 0
