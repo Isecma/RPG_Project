@@ -12,6 +12,7 @@ namespace RPG.Movement
 
         NavMeshAgent navMeshAgent;
         Animator animator;
+        [HideInInspector] public bool isAtDestination;
 
         void Start()
         {
@@ -29,6 +30,7 @@ namespace RPG.Movement
 
             GetComponent<ActionScheduler>().StartAction(this);
             MoveTo(destination);
+            isAtDestination = Vector3.Distance(transform.position, destination) < 0.1f;
         }
 
         public void MoveTo(Vector3 destination)

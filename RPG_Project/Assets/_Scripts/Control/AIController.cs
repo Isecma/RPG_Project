@@ -19,8 +19,10 @@ namespace RPG.Control
 
 
         Vector3 guardLocation;
+        Quaternion guardRotation;
 
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        float distanceToWaypoint = 0.0001f;
         int currentIndexWaypoint = 0;
 
         GameObject player;
@@ -32,6 +34,7 @@ namespace RPG.Control
         void Start()
         {
             guardLocation = transform.position;
+            guardRotation = transform.rotation;
 
             player = GameObject.FindGameObjectWithTag("Player");
             fighter = GetComponent<Fighter>();
@@ -82,13 +85,17 @@ namespace RPG.Control
                 }
                 nextPosition = GetCurrentWaypoint();
             }
+            else if(patrolPath == null && move.isAtDestination)
+            {
+                transform.rotation = guardRotation;
+            }
             navMeshAgent.speed = patrolSpeed;
             move.StartMoveAction(nextPosition);   
         }
 
         bool AtWaypoint()
         {
-            return transform.position == GetCurrentWaypoint();
+            return Vector3.Distance(transform.position, GetCurrentWaypoint()) < distanceToWaypoint;
         }
 
         void CycleWaypoint()
